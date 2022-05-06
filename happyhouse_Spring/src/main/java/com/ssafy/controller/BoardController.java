@@ -31,95 +31,27 @@ import com.ssafy.service.BoardService;
 @RequestMapping("/board")
 public class BoardController {
 
-@Autowired
-private BoardService boardser;
+	@Autowired
+	private BoardService boardser;
 
-
-@GetMapping("/listboardform")
-public String listboardform(@RequestParam Map<String, String> map) throws SQLException {
-    return "board/listboard";
-}
-
-@GetMapping("/boardlist")
-@ResponseBody
-public Map<String, Object> boardlist() throws SQLException {
-	List<BoardDTO> list = boardser.listboard();
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("boardlist", list);
-    
-    return map;
-}
-
-@GetMapping("/boardlist/{no}")
-@ResponseBody
-public Map<String, Object> boardinfo(@PathVariable String no) throws SQLException {
-    BoardDTO boardDTO = boardser.listondeboard(no);
-    System.out.println(boardDTO);
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("info",boardDTO);
-    
-    return map;
-}
-
-@GetMapping("/registboardform")
-public String registboardform() {
-    return "board/registboard";
-}
-
-@PostMapping("/boardlist")
-@ResponseBody
-public Map<String, Object> regboard(@RequestBody BoardDTO boardDTO) throws SQLException {
-	int flag = boardser.insertboard(boardDTO);
-	Map<String, Object> map = new HashMap<String, Object>();
-	if(flag == 0) {
-		map.put("flag", flag);
-	}else {
-		map.put("flag", flag);
+	@GetMapping("/listboardform")
+	public String listboardform(@RequestParam Map<String, String> map) throws SQLException {
+		return "board/listboard";
 	}
-	return map;
-}
 
-
-@GetMapping("/updateboardform")
-public ModelAndView updateboardform(@RequestParam("no") String no,
-		@RequestParam("id") String id) throws SQLException {
-	ModelAndView mav = new ModelAndView();
-	mav.addObject("no",no);
-	mav.setViewName("board/updateboard");
-	return mav;
-		
-	
-	
-}
-
-@PutMapping("/boardlist/{no}")
-@ResponseBody
-public Map<String, Object> updateboard(@PathVariable("no") String no, @RequestBody BoardDTO bdto) throws SQLException {
-
-	int flag = boardser.updateboard(bdto);
-	
-	Map<String, Object> map = new HashMap<String, Object>();
-	if(flag == 0) {
-		map.put("flag", flag);
-	}else {
-		map.put("flag", flag);
+	@GetMapping("/registboardform")
+	public String registboardform() {
+		return "board/registboard";
 	}
-	return map;
-}
 
-@DeleteMapping("/boardlist/{no}")
-@ResponseBody
-public Map<String, Object> deleteboard(@PathVariable("no") String no) throws SQLException {
-	BoardDTO bdto = new BoardDTO();
-	bdto.setNo(no);
-	int flag = boardser.deleteboard(bdto);
-	
-	Map<String, Object> map = new HashMap<String, Object>();
-	if(flag == 0) {
-		map.put("flag", flag);
-	}else {
-		map.put("flag", flag);
+	@GetMapping("/updateboardform")
+	public ModelAndView updateboardform(@RequestParam("no") String no, @RequestParam("id") String id)
+			throws SQLException {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("no", no);
+		mav.setViewName("board/updateboard");
+		return mav;
+
 	}
-	return map;
-}
+
 }

@@ -61,11 +61,11 @@
 				type : "PUT",
 				contentType:'application/json;charset=utf-8',
 				data : JSON.stringify ({
-					id:$("#inputId").val(),
-					password:$("#inputPassword").val(),
-					name:$("#inputName").val(),
-					email:$("#email").val(),
-					phonenumber:$("#inputNumber").val()
+					id:$("#updateId").val(),
+					password:$("#updatePassword").val(),
+					name:$("#updateName").val(),
+					email:$("#updateemail").val(),
+					phonenumber:$("#updateNumber").val()
 				}),
 				dataType:'json',
 				success:function(data) {

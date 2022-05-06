@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%@include file="/WEB-INF/views/head.jsp" %>
+<%@include file="/WEB-INF/views/indexhead.jsp" %>
 <title>happyhouse</title>
 
 

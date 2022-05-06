@@ -7,52 +7,13 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- EmailJS-->
-<script type="text/javascript"
-	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-<!-- bootstrap -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-	crossorigin="anonymous" />
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-	crossorigin="anonymous"></script>
-
-<!-- jquery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<!-- index.js --><!-- 
-<script type="text/javascript" src="/js/index.js"></script> -->
-
-<!-- map -->
-<!-- <script
-      async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFQh4CqixzCQ3GMECg9_9YxbIOijkW22w&callback=initMap"
-    ></script> -->
-
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=32d4bf5a63d1251f73331370dbb8f363&libraries=services"></script>
-
-
-<link href="/css/index.css" rel="stylesheet" type="text/css">
-
-<!-- icon -->
-<script src="https://kit.fontawesome.com/437ed9bce7.js"
-	crossorigin="anonymous"></script>
-
+<%@include file="/WEB-INF/views/boardhead.jsp" %>
 
 <script type="text/javascript">
 $(document).ready(function(){
     $.ajax({
-        url : "/board/boardlist",
+        url : "/board/",
         type : "GET",
         contentType:'application/json;charset=utf-8',
         dataType:'json',
@@ -84,7 +45,7 @@ function makeList(lists){
 
 function viewboard(no){
 	$.ajax({
-        url : "/board/boardlist/"+no,
+        url : "/board/"+no,
         type : "GET",
         contentType:'application/json;charset=utf-8',
         dataType:'json',
@@ -143,20 +104,10 @@ function makeoneList(list){
 			<!-- 전체게시판 시작 -->
 			<div id="map" class="col-md-8">
 				<h2 style="text-align: center">게시판</h2>
-
-				<c:if test="${empty userInfo }">
-					<div>
-						<a class="boarda" href="#">
-							<p onclick="alert('로그인해주세요')">글 작성</p>
-						</a>
-					</div>
-				</c:if>
-
-				<c:if test="${not empty userInfo }">
-					<div>
-						<a class="boarda" href="/board/registboardform">글 작성</a>
-					</div>
-				</c:if>
+				
+				<div>
+					<a class="boarda" href="/board/registboardform">글 작성</a>
+				</div>
 
 				<table class="table table-hover">
 					<thead>
@@ -179,52 +130,6 @@ function makeoneList(list){
 
 			<!-- 세부게시판 시작-->
 			<div id="boardinfolist" class="col-md-4 row">
-
-
-				<%-- <c:if test="${not empty infolist }">
-                    <c:forEach items="${infolist }" var="item">
-
-                        <div class="col-md-3">
-                            <div class="boardex">글 번호</div>
-                            <hr>
-                            <div class="boardex">작성자</div>
-                            <hr>
-                            <div class="boardex">제목</div>
-                            <hr>
-                            <div class="boardex">내용</div>
-
-                        </div>
-                        <div class="col-md-9">
-                            <div id="boardno">
-                                <span>${item.no }</span> 
-                                <div> <c:if
-                                        test="${empty userInfo || userInfo.id != item.id }">
-                                        <a href="#" class="updatebtn">
-                                            <p onclick="alert('글쓴이만 수정 가능합니다')" style="display: inline;">수정</p>
-                                        </a>
-                                    </c:if> <c:if test="${userInfo.id == item.id }">
-                                        <a class="updatebtn"
-                                            href="updateboardform.user?no=${item.no }&id=${item.id}&subject=${item.subject}&contents=${item.contents}">수정</a>
-                                    </c:if> <c:if test="${empty userInfo || userInfo.id != item.id }">
-                                        <a href="#" class="updatebtn">
-                                            <p onclick="alert('글쓴이만 삭제 가능합니다')" style="display: inline;">삭제</p>
-                                        </a>
-                                    </c:if> <c:if test="${userInfo.id == item.id }">
-                                        <a class="updatebtn"
-                                            href="deleteboard.user?no=${item.no }&id=${item.id}&subject=${item.subject}&contents=${item.contents}">삭제</a>
-                                    </c:if>
-                                </div>
-                            </div>
-                            <hr>
-                            <div id="boardid">${item.id }</div>
-                            <hr>
-                            <div id="boardsubject">${item.subject }</div>
-                            <hr>
-                            <div id="boardcontents">${item.contents }</div>
-                        </div>
-                    </c:forEach>
-                </c:if> --%>
-
 
 			</div>
 			<!-- 세부게시판 끝-->

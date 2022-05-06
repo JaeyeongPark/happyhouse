@@ -2,11 +2,13 @@
  var markers = [];
  
 $(() => {
-// 이메일 api시작하기
+	
+	// 이메일 api시작하기
   (function(){ 
     emailjs.init("uPrm0nkV2Rv9Li7gd"); 
   })();
   
+  // 맵 가져오기
   var container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
   var options = { // 지도를 생성할 때 필요한 기본 옵션
     center: new kakao.maps.LatLng(37.5012743, 127.039585), // 지도의 중심좌표.
@@ -14,6 +16,7 @@ $(() => {
   };
   map = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
 
+  // 주소를 통한 아파트검색
   $("#search-btn").on("click", () => {
 	 	 let sido = $("#sido").val();
 		 let gugun = $("#gugun").val();
@@ -23,7 +26,7 @@ $(() => {
 		 let word = "";
 	    
 		 $.ajax({
-			url : "/apt/search?sidoName="+sido+"&gugunName="+gugun+"&dongName="+dong+"&pg=1&key=&word=",
+			url : "/apt?sidoName="+sido+"&gugunName="+gugun+"&dongName="+dong+"&pg=1&key=&word=",
 			type : "GET",
 			contentType:'application/json;charset=utf-8',
 			dataType:'json',
@@ -38,6 +41,7 @@ $(() => {
 	//location.href = "/locationSearch.html";
 	});
   
+  //아파트 리스트 가져오기
   function makeList(datas){
 		 $("#apt-list").empty();
 		 
@@ -48,6 +52,8 @@ $(() => {
 		 }
 		 
 		 else{
+			 
+			 //맵 마거 가져오기
 			  $.each(datas.AptDTO, function(index, data) {
 				  var moveLatLon = new kakao.maps.LatLng(data.lat, data.lng);
 			        var imageSrc = "img/marker_map_icon.png", // 마커이미지의 주소입니다
@@ -78,6 +84,8 @@ $(() => {
 			        markers.push(marker);
 			        map.setCenter(moveLatLon);
 				 
+			        
+			        //아파트 리스트 가져오기
 					let str = `
 						<div class="aptinfolist">
 							<div class="aptNamelist">${data.aptName }</div>
@@ -93,8 +101,9 @@ $(() => {
 				});
 			  $("#apt-page").empty().append(datas.PageNavigation.navigator);
 			  
+			  //페이지 넘겼을때
 			  $(".page-item").click(function () {
-				  
+				  //맵 마커 가져오기
 				  var moveLatLon = new kakao.maps.LatLng('${datas.AptDTO.lat}', '${datas.AptDTO.lng}');
 			        var imageSrc = "img/marker_map_icon.png", // 마커이미지의 주소입니다
 			          imageSize = new kakao.maps.Size(50, 50), // 마커이미지의 크기입니다
@@ -124,7 +133,7 @@ $(() => {
 			        markers.push(marker);
 			        map.setCenter(moveLatLon);
 				  
-				  
+				  //아파트 리스트 가져오기
 					 	let sido = datas.AddressDTO.sidoName;
 						let gugun = datas.AddressDTO.gugunName;
 						let dong = datas.AddressDTO.dongName;
@@ -133,7 +142,7 @@ $(() => {
 						let word = datas.listParameterDTO.word;
 						
 						 $.ajax({
-								url : "/apt/search?sidoName="+sido+"&gugunName="+gugun+"&dongName="+dong+"&pg="+pg+"&key="+key+"&word="+word,
+								url : "/apt?sidoName="+sido+"&gugunName="+gugun+"&dongName="+dong+"&pg="+pg+"&key="+key+"&word="+word,
 								type : "GET",
 								contentType:'application/json;charset=utf-8',
 								dataType:'json',
@@ -152,7 +161,7 @@ $(() => {
 
 	
 
-
+  	//키워드 검색했을때
 	$("#word-btn").click(function () { 
 		let sido = $("#sido").val();
 		let gugun = $("#gugun").val();
@@ -162,7 +171,7 @@ $(() => {
 		let word = $('input[name=word]').val();
 		
 		 $.ajax({
-				url : "/apt/search?sidoName="+sido+"&gugunName="+gugun+"&dongName="+dong+"&pg=1&key="+key+"&word="+word,
+				url : "/apt?sidoName="+sido+"&gugunName="+gugun+"&dongName="+dong+"&pg=1&key="+key+"&word="+word,
 				type : "GET",
 				contentType:'application/json;charset=utf-8',
 				dataType:'json',

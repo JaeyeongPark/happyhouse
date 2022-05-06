@@ -58,57 +58,58 @@ public class UserController {
 	}
 	
 	
-	@PostMapping("/")
-	@ResponseBody
-	public Map<String, Object> register(@RequestBody UserDTO udto) throws SQLException {
-		int flag = userser.insertUser(udto);
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(flag == 0) {
-			map.put("flag", flag);
-		}else {
-			map.put("flag", flag);
-		}
-		return map;
-	}
-	
-	@PutMapping("/{id}")
-	@ResponseBody
-	public Map<String, Object> update(@PathVariable("id") String id, @RequestBody UserDTO udto) throws SQLException {
-		int flag = userser.updateUser(udto);
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(flag == 0) {
-			map.put("flag", flag);
-		}else {
-			map.put("flag", flag);
-		}
-		return map;
-	}
-	
-	@DeleteMapping("/{id}")
-	@ResponseBody
-	public Map<String, Object> del(@PathVariable("id") String id) throws SQLException {
-		int flag = userser.deletetUser(id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(flag == 0) {
-			map.put("flag", flag);
-		}else {
-			map.put("flag", flag);
-		}
-		return map;
-	}
-	
-	@GetMapping("/{id}")
-	@ResponseBody
-	public Map<String, Object> searchpw(@PathVariable String id) throws SQLException {
-		String pw = userser.searchpw(id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(pw!=null) {
-			map.put("flag", 1);
-			map.put("pw", pw);
-		}else {
-			map.put("flag", 0);
-		}
-		
-		return map;
-	}
+//	@PostMapping("/")
+//	@ResponseBody
+//	public Map<String, Object> register(@RequestBody UserDTO udto) throws SQLException {
+//		int flag = userser.insertUser(udto);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		if(flag == 0) {
+//			map.put("flag", flag);
+//		}else {
+//			map.put("flag", flag);
+//		}
+//		return map;
+//	}
+//	
+//	@PutMapping("/{id}")
+//	@ResponseBody
+//	public Map<String, Object> update(@PathVariable("id") String id, @RequestBody UserDTO udto) throws SQLException {
+//		int flag = userser.updateUser(udto);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		if(flag == 0) {
+//			map.put("flag", flag);
+//		}else {
+//			map.put("flag", flag);
+//		}
+//		return map;
+//	}
+//	
+//	@DeleteMapping("/{id}")
+//	@ResponseBody
+//	public Map<String, Object> del(@PathVariable("id") String id) throws SQLException {
+//		System.out.println("삭제됨?");
+//		int flag = userser.deletetUser(id);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		if(flag == 0) {
+//			map.put("flag", flag);
+//		}else {
+//			map.put("flag", flag);
+//		}
+//		return map;
+//	}
+//	
+//	@GetMapping("/{id}")
+//	@ResponseBody
+//	public Map<String, Object> searchpw(@PathVariable String id) throws SQLException {
+//		String pw = userser.searchpw(id);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		if(pw!=null) {
+//			map.put("flag", 1);
+//			map.put("pw", pw);
+//		}else {
+//			map.put("flag", 0);
+//		}
+//		
+//		return map;
+//	}
 }
