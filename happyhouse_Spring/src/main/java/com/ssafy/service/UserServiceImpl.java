@@ -39,5 +39,10 @@ public class UserServiceImpl implements UserService {
 		return udao.searchpw(searchid);
 	}
 
+	@Override
+	public UserDTO userinfo(String id) throws SQLException {
+		return udao.userinfo(id);
+	}
+
 
 }

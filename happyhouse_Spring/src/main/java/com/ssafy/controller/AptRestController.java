@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.dto.AddressDTO;
 import com.ssafy.dto.AptDTO;
+import com.ssafy.dto.StationDTO;
 import com.ssafy.dto.listParameterDTO;
 import com.ssafy.service.AptService;
 import com.ssafy.util.PageNavigation;
@@ -39,7 +40,10 @@ public class AptRestController {
 		map.put("AddressDTO", addto);
 		map.put("listParameterDTO", lidto);
 		
-		List<AptDTO> Aptdto = aptser.aptlist(map);
+		Map<String, Object> aptmap = aptser.aptlist(map);
+		List<AptDTO> Aptdto = (List<AptDTO>)aptmap.get("aptlist");
+		List<StationDTO> sdto = (List<StationDTO>)aptmap.get("nearstationlist");
+		
 		PageNavigation navigation = aptser.makePageNavigation(map);
 		
 		//System.out.println(lidto);
@@ -47,11 +51,11 @@ public class AptRestController {
 		ResponseEntity<Map<String,Object>> resEntity = null;
 		Map<String, Object> map1 = new HashMap();
 		map1.put("AptDTO", Aptdto);
+		map1.put("stationDTO", sdto);
 		map1.put("PageNavigation", navigation);
 		map1.put("searchaddress", addto.getSidoName()+" "+addto.getGugunName()+" "+addto.getDongName());
 		map1.put("AddressDTO", addto);
 		map1.put("listParameterDTO", lidto);
-		
 		resEntity = new ResponseEntity<Map<String,Object>>(map1,HttpStatus.OK);
 		
 		return resEntity;

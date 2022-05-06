@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<header class="navbar navbar-light bg-light fixed-top container">
+	<header class="navbar navbar-light bg-light fixed-top container" >
 		<nav class="navbar navbar-expand-sm">
 			<a class="navbar-brand" href="/"
 				style="font-size: 30px; font-weight: bold; color: orange"> <i
@@ -18,7 +18,7 @@
 				<li class="nav-item"><a class="nav-link" href="#">공지사항</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">오늘의 뉴스</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">주변 탐방</a></li>
-				<li class="nav-item"><a class="nav-link" href="board/listboardform">게시판</a></li>
+				<li class="nav-item"><a class="nav-link" href="/board/listboardform">게시판</a></li>
 			</ul>
 		</nav>
 
@@ -40,15 +40,13 @@
 					<c:choose>
 						<c:when test="${empty userInfo }">
 							<li class="nav-item">
-								<button type="button" class="btn menu-btn"
-									data-bs-toggle="modal" data-bs-target="#exampleModalregist"
-									data-bs-whatever="@mdo">회원가입</button>
+								<button type="button" class="btn menu-btn" onclick="location.href='/user/registform'"
+									>회원가입</button>
 							</li>
 							<hr>
 							<li class="nav-item">
-								<button type="button" class="btn menu-btn"
-									data-bs-toggle="modal" data-bs-target="#exampleModallogin"
-									data-bs-whatever="@mdo">로그인</button>
+								<button type="button" class="btn menu-btn" onclick="location.href='/user/loginform'"
+									>로그인</button>
 							</li>
 							<hr>
 
@@ -56,7 +54,7 @@
 						<c:otherwise>
 							<h5 class="text-center mb-3">${userInfo.id }님반갑습니다.</h5>
 							<li class="nav-item">
-								<form action="user/logout">
+								<form action="/user/logout">
 									<button type="submit" class="btn menu-btn">로그아웃</button>
 								</form>
 							</li>
@@ -64,8 +62,7 @@
 
 							<li class="nav-item">
 								<button type="button" class="btn menu-btn"
-									data-bs-toggle="modal" data-bs-target="#exampleModalconfirm"
-									data-bs-whatever="@mdo">회원정보확인</button>
+									 onclick="location.href='/user/userinfoform?id=${userInfo.id}'">회원정보확인</button>
 							</li>
 							<hr>
 

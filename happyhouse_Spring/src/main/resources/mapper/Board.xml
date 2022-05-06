@@ -17,17 +17,54 @@
 		delete from board where no = #{no}
 	</delete>
 	
-	<select id="listboard" resultType="BoardDTO">
-		select no, id, subject, contents 
+	<select id="listboard" resultType="BoardDTO" parameterType="map">
+		select no, id, subject, contents, search
 		from board
+		<if test='listParameterDTO.word != null'>
+			<if test='listParameterDTO.key.equals("id")'>
+			where id = #{listParameterDTO.word}
+			</if>
+			<if test='listParameterDTO.key.equals("subject")'>
+			where subject like concat('%', #{listParameterDTO.word}, '%')
+			</if>
+			<if test='listParameterDTO.key.equals("contents")'>
+			where contents like concat('%', #{listParameterDTO.word}, '%')
+			</if>
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
 	</select>
 	
 	<select id="listondeboard" resultType="BoardDTO" parameterType="string">
-		select no, id, subject, contents 
+		select no, id, subject, contents, search 
 		from board
 		where no = #{no}
 	</select>
 	
+	<select id="getTotalCount" resultType="int" parameterType="map">
+		select count(no)
+		from board
+		<if test='listParameterDTO.word != null'>
+			<if test='listParameterDTO.key.equals("id")'>
+			where id = #{listParameterDTO.word}
+			</if>
+			<if test='listParameterDTO.key.equals("subject")'>
+			where subject like concat('%', #{listParameterDTO.word}, '%')
+			</if>
+			<if test='listParameterDTO.key.equals("contents")'>
+			where contents like concat('%', #{listParameterDTO.word}, '%')
+			</if>
+		</if>
+	</select>
+		
+	<update id="countsearch" parameterType="string">
+        update board 
+        set search = search+1
+        where no = #{no}
+    </update>
 
+	<select id="listwholeboard" resultType="BoardDTO">
+        select no, id, subject, contents, search 
+        from board
+    </select>
 </mapper>
 

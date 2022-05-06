@@ -18,6 +18,8 @@ public interface UserDAO {
 	public UserDTO login(Map<String, String> map) throws SQLException;
 
 	public String searchpw(String searchid) throws SQLException;
+	
+	public UserDTO userinfo(String id) throws SQLException;
 
 
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
@@ -8,12 +8,17 @@
 <html lang="en">
 <head>
 
-<%@include file="/WEB-INF/views/boardhead.jsp" %>
+<%@include file="/WEB-INF/views/head/boardhead.jsp" %>
 
 <script type="text/javascript">
-$(document).ready(function(){
+
+
+
+
+function sort(sort){
+    console.log(sort);
     $.ajax({
-        url : "/board/",
+        url : "/board/search/"+sort,
         type : "GET",
         contentType:'application/json;charset=utf-8',
         dataType:'json',
@@ -25,64 +30,6 @@ $(document).ready(function(){
             console.log("상태값 : " + xhr.status + "\tHttp 에러메시지 : " + xhr.responseText);
         }
     });
-
-});
-
-function makeList(lists){
-    $("#boardlistbody").empty();
-    $(lists.boardlist).each(function(index, list) {
-        let str = `<tr id="" class="">
-                <td>${'${list.no}'}</td>
-                <td>${'${list.id}'}</td>
-                <td>${'${list.subject}'}</td>
-                <td>${'${list.contents}'}</td>
-                <td><button id = "${'${list.no}'}" onClick="viewboard(this.id)">글보기</button></td>
-            </tr>`;
-        $("#boardlistbody").append(str);
-       
-    });
-}
-
-function viewboard(no){
-	$.ajax({
-        url : "/board/"+no,
-        type : "GET",
-        contentType:'application/json;charset=utf-8',
-        dataType:'json',
-        success:function(list) {
-           makeoneList(list);
-        },
-        error:function(xhr, status, error){
-            console.log("상태값 : " + xhr.status + "\tHttp 에러메시지 : " + xhr.responseText);
-        }
-    });
-}
-
-function makeoneList(list){
-        let str = `
-        	<div class="col-md-3">
-	            <div class="boardex">글 번호</div>
-	            <hr>
-	            <div class="boardex">작성자</div>
-	            <hr>
-	            <div class="boardex">제목</div>
-	            <hr>
-	            <div class="boardex">내용</div>
-            </div>
-            <div class="col-md-9">
-	            <div id="boardno">${'${list.info.no}'}</div>
-	            <hr>
-	        	<div id="boardid">${'${list.info.id}'}</div>
-	            <hr>
-	            <div id="boardsubject">${'${list.info.subject}'}</div>
-	            <hr>
-	            <div id="boardcontents">${'${list.info.contents}'}</div>
-            </div>
-            <div>
-            <a href="/board/updateboardform?no=${'${list.info.no}'}&id=${'${list.info.id}'}">게시글 수정하기</a>
-            </div>
-        `;
-        $("#boardinfolist").empty().append(str);
 }
 
 
@@ -92,63 +39,75 @@ function makeoneList(list){
 </head>
 <body>
 
-	<!-- HEADER 시작 -->
-	<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-	<!-- HEADER 끝 -->
+    <!-- HEADER 시작 -->
+    <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+    <!-- HEADER 끝 -->
 
-	<!-- MAIN 시작 -->
-	<div id="main" class="container">
-		<!-- 게시판 시작 -->
-		<div class="map-contents row">
+    <!-- MAIN 시작 -->
+    <div id="main" class="container">
+        <!-- 게시판 시작 -->
+        <div class="map-contents row">
+            <div class="col-md-1"></div>
+            <!-- 전체게시판 시작 -->
+            <div id="map" class="col-md-10">
+                <h2 style="text-align: center">게시판</h2>
+                
+                <div>
+                    <a class="boarda" href="/board/boardregistform">글 작성</a>
+                </div>
 
-			<!-- 전체게시판 시작 -->
-			<div id="map" class="col-md-8">
-				<h2 style="text-align: center">게시판</h2>
-				
-				<div>
-					<a class="boarda" href="/board/registboardform">글 작성</a>
-				</div>
+                        <div id="board-search">
+                                <input type="hidden" name="pg" value="1">
+                                <select class="col border m-2" style="height: 40px;" name="key">
+                                    <option value="id">아이디
+                                    <option value="subject">제목
+                                    <option value="contents">내용
+                                </select> 
 
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th>글 번호</th>
-							<th>작성자</th>
-							<th>제목</th>
-							<th style="width: 400px">내용</th>
-							<th>상세보기</th>
-						</tr>
-					</thead>
-					<tbody id="boardlistbody">
+                                <input type="text" class="col ml-1 form-control" name="word">
+                                <button type="button" class="col btn btn-outline-primary"
+                                    id="word-btn">검색</button>
+                        </div>
+                        
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>제목</th>
+                                    <!-- <button id="nosort" type="button" class="btn btn-light" onclick="sort(this.id)"    >▼</button> -->
+                                    <th>작성자</th>
+                                    <th>글번호</th>
+                                    <th>조회수</th>
+                                    <!-- <button id="searchsort" type="button" class="btn btn-light" onclick="sort(this.id)">▼</button> -->
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="boardlistbody">
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div class="col-md-1"></div>
 
-					</tbody>
-				</table>
-			</div>
+            <!-- 전체게시판 끝 -->
 
 
-			<!-- 전체게시판 끝 -->
+        </div>
+        <!-- 게시판 끝 -->
+    </div>
+    <!-- MAIN 끝 -->
 
-			<!-- 세부게시판 시작-->
-			<div id="boardinfolist" class="col-md-4 row">
+    <jsp:include page="/WEB-INF/views/template/modal.jsp"></jsp:include>
 
-			</div>
-			<!-- 세부게시판 끝-->
-		</div>
-		<!-- 게시판 끝 -->
-	</div>
-	<!-- MAIN 끝 -->
-
-	<jsp:include page="/WEB-INF/views/template/modal.jsp"></jsp:include>
-
-	<!-- FOOTER 시작 -->
-	<footer class="p-3 bg-dark text-white container">
-		<img src="/img/SSAFY.jpg" />
-		<p>Find Us</p>
-		<hr />
-		<p>(SSAFY)서울시 강남구 테헤란로 멀티스퀘어</p>
-		<p>1544-9001</p>
-	</footer>
-	<!-- FOOTER 끝 -->
+    <!-- FOOTER 시작 -->
+    <footer class="p-3 bg-dark text-white container">
+        <img src="/img/SSAFY.jpg" />
+        <p>Find Us</p>
+        <hr />
+        <p>(SSAFY)서울시 강남구 테헤란로 멀티스퀘어</p>
+        <p>1544-9001</p>
+    </footer>
+    <!-- FOOTER 끝 -->
 </body>
 </body>
 </html>
+

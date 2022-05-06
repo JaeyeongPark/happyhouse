@@ -5,17 +5,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%@include file="/WEB-INF/views/indexhead.jsp" %>
+<%@include file="/WEB-INF/views/head/indexhead.jsp" %>
 <title>happyhouse</title>
+<script type="text/javascript">
+$(document).ready(function(){
+    $.ajax({
+        url : "/board/mostsearch",
+        type : "GET",
+        contentType:'application/json;charset=utf-8',
+        dataType:'json',
+        success:function(lists) {
+           makeList(lists);
+        },
+        error:function(xhr, status, error){
+            console.log("상태값 : " + xhr.status + "\tHttp 에러메시지 : " + xhr.responseText);
+        }
+    });
 
+});
+
+function makeList(lists){
+    $("#boardlistbody").empty();
+    $(lists.boardlist).each(function(index, list) {
+        if(index >= 0 && index<=2){
+            let str = `<tr id="" class="">
+                <td>${'${list.no}'}</td>
+                <td>${'${list.subject}'}</td>
+                <td>${'${list.search}'}</td>
+            </tr>`;
+             $("#boardlistbody").append(str);
+        }
+    });
+}
+</script>
 
 </head>
 <body>
-
-
-	<!-- <form name="pageForm" id="pageForm">
-	</form>  -->
-
 
 	<!-- HEADER 시작 -->
 	<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
@@ -94,20 +119,33 @@
 					<img src="./img/adimg.jpg" class="d-block w-100" alt="광고입니다" />
 				</div>
 				<div class="col m-2 p-3 border text-center">
-					<a href="board/listboardform">게시판</a>
+					<h5>게시판</h5>
+					<hr>
+					<table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>글 번호</th>
+                                <th>제목</th>
+                                <th>조회수</th>
+                            </tr>
+                        </thead>
+                        <tbody id="boardlistbody">
+                        </tbody>
+                    </table>
+                    <a href="board/listboardform" style="float: right; text-decoration: none">더보기</a>
 				</div>
-				<div class="col m-2 p-3 border text-center">오늘의 뉴스</div>
+				<h5 class="col m-2 p-3 border text-center">오늘의 뉴스</h5>
+				<hr>
 			</div>
 			<!-- info-contens 끝 -->
 		</div>
 	</div>
 	<!-- MAIN 끝 -->
 
-	<jsp:include page="/WEB-INF/views/template/modal.jsp"></jsp:include>
 
 	<!-- FOOTER 시작 -->
 	<footer class="p-3 bg-dark text-white container">
-		<img src="img/SSAFY.jpg" />
+		<img src="/img/SSAFY.jpg" />
 		<p>Find Us</p>
 		<hr />
 		<p>(SSAFY)서울시 강남구 테헤란로 멀티스퀘어</p>

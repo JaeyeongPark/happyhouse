@@ -6,12 +6,11 @@
 <html lang="en">
 <head>
 
-<%@include file="/WEB-INF/views/boardhead.jsp" %>
+<%@include file="/WEB-INF/views/head/boardhead.jsp" %>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	let no = ${no};
-	console.log(no);
 	$.ajax({
 		
 		url : "/board/"+no,
@@ -53,7 +52,7 @@ $(document).ready(function(){
 				
 				<div class="form-group">
 					<input type="button" class="btn btn-outline-primary" value="수정" onClick="updateboard(${'${data.info.no}'})">
-					<input type="button" class="btn btn-outline-primary" value="삭제" onClick="deleteboard(${'${data.info.no}'})">
+					<input type="button" class="btn btn-outline-danger" value="삭제" onClick="deleteboard(${'${data.info.no}'})">
 				</div>
 
 			</form>

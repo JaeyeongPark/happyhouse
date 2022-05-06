@@ -23,6 +23,12 @@
 		where id=#{id} and password=#{password}
 	</select>
 	
+	<select id="userinfo" resultType="UserDTO" parameterType="string">
+		select * 
+		from user 
+		where id=#{id}
+	</select>
+	
 	<select id="searchpw" resultType="String" parameterType="string">
 		select password 
 		from user 

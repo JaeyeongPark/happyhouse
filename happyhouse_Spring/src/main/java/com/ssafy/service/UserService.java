@@ -18,4 +18,5 @@ public interface UserService {
 
 	public String searchpw(String searchid) throws SQLException;
 
+	public UserDTO userinfo(String id) throws SQLException;
 }

@@ -31,27 +31,35 @@ import com.ssafy.service.BoardService;
 @RequestMapping("/board")
 public class BoardController {
 
-	@Autowired
-	private BoardService boardser;
+@Autowired
+private BoardService boardser;
 
-	@GetMapping("/listboardform")
-	public String listboardform(@RequestParam Map<String, String> map) throws SQLException {
-		return "board/listboard";
-	}
+@GetMapping("/listboardform")
+public String listboardform(@RequestParam Map<String, String> map) throws SQLException {
+    return "board/listboard";
+}
 
-	@GetMapping("/registboardform")
-	public String registboardform() {
-		return "board/registboard";
-	}
+@GetMapping("/boardregistform")
+public String registboardform() {
+    return "board/registboard";
+}
 
-	@GetMapping("/updateboardform")
-	public ModelAndView updateboardform(@RequestParam("no") String no, @RequestParam("id") String id)
-			throws SQLException {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("no", no);
-		mav.setViewName("board/updateboard");
-		return mav;
+@GetMapping("/boardupdateform")
+public ModelAndView updateboardform(@RequestParam("no") String no, @RequestParam("id") String id)
+        throws SQLException {
+    ModelAndView mav = new ModelAndView();
+    mav.addObject("no", no);
+    mav.setViewName("board/updateboard");
+    return mav;
 
-	}
+}
 
+@GetMapping("/selectboard")
+public ModelAndView selectboard(@RequestParam("no") String no, @RequestParam("id") String id) throws SQLException {
+ 
+    ModelAndView mav = new ModelAndView();
+    mav.addObject("no", no);
+    mav.setViewName("board/selectboard");
+    return mav;
+}
 }

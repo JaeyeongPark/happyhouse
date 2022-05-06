@@ -8,7 +8,7 @@
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-<link rel="shortcut icon" href="img/home.png" />
+<link rel="shortcut icon" href="/img/home.png" />
 
 <!-- bootstrap -->
 <link

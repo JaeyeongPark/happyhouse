@@ -27,15 +27,26 @@ public class UserRestController {
 	UserService userser;
 	
 	@GetMapping("/user/{id}")
-	public Map<String, Object> searchpw(@PathVariable String id) throws SQLException {
-		String pw = userser.searchpw(id);
+	public Map<String, Object> userinfo(@PathVariable String id) throws SQLException {
+		UserDTO udto = userser.userinfo(id);
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(pw!=null) {
-			map.put("flag", 1);
-			map.put("pw", pw);
+		
+		map.put("udto", udto);
+		
+		return map;
+	}
+	
+	@GetMapping("/user/{id}/{pn}")
+	public Map<String, Object> searchpw(@PathVariable("id") String id,@PathVariable("pn") String pn) throws SQLException {
+		UserDTO udto = userser.userinfo(id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(udto.getPhonenumber().equals(pn)) {
+			map.put("password", udto.getPassword());
 		}else {
-			map.put("flag", 0);
+			map.put("password", "0");
 		}
+		
 		
 		return map;
 	}

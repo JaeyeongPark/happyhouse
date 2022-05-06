@@ -10,6 +10,6 @@ import com.ssafy.util.PageNavigation;
 
 public interface AptService {
 
-	List<AptDTO> aptlist(Map<String, Object> map) throws SQLException;
+	Map<String, Object> aptlist(Map<String, Object> map) throws SQLException;
 	PageNavigation makePageNavigation(Map<String, Object> map) throws Exception;
 }

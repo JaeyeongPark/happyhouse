@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 
-<%@include file="/WEB-INF/views/boardhead.jsp" %>
+<%@include file="/WEB-INF/views/head/boardhead.jsp" %>
 
 <script type="text/javascript">
 function regb() {

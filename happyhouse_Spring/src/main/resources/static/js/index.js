@@ -52,6 +52,9 @@ $(() => {
 		 }
 		 
 		 else{
+			 $("#searchlocation").empty();
+			 let sl = `<h5 class="text-center pt-2">검색 지역 : ${datas.searchaddress}</h5>`;
+			 $("#searchlocation").append(sl);
 			 
 			 //맵 마거 가져오기
 			  $.each(datas.AptDTO, function(index, data) {
@@ -91,8 +94,8 @@ $(() => {
 							<div class="aptNamelist">${data.aptName }</div>
 							<div>거래 날짜 : ${data.dealYear }년 ${data.dealMonth }월 ${data.dealDay }일</div>
 							<div>거래 금액 : ${data.dealAmount } <span class="won">(만)</span></div>
-
 							<div>면적 : ${data.area }</div>
+							<div>가까운 전철역 : ${datas.stationDTO[index].line} ${datas.stationDTO[index].name }역</div>
 						</div>
 						<hr>
 					`;

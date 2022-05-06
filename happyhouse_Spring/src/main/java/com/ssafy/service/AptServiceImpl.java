@@ -2,6 +2,7 @@ package com.ssafy.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.dao.AptDAO;
 import com.ssafy.dto.AddressDTO;
 import com.ssafy.dto.AptDTO;
+import com.ssafy.dto.StationDTO;
 import com.ssafy.dto.listParameterDTO;
 import com.ssafy.util.PageNavigation;
 @Service
@@ -19,7 +21,7 @@ public class AptServiceImpl implements AptService{
 	private AptDAO dao;
 	
 	@Override
-	public List<AptDTO> aptlist(Map<String, Object> map) throws SQLException {
+	public Map<String, Object> aptlist(Map<String, Object> map) throws SQLException {
 		listParameterDTO lidto = (listParameterDTO)map.get("listParameterDTO");
 		AddressDTO addto = (AddressDTO)map.get("AddressDTO");
 		//System.out.println(map);
@@ -33,14 +35,50 @@ public class AptServiceImpl implements AptService{
 		listParameterDto.setWord(lidto.getWord() == null ? "" : lidto.getWord().trim());
 		listParameterDto.setStart(start);
 		listParameterDto.setCurrentPerPage(countPerPage);
-		//System.out.println("서비스단에선");
-		//System.out.println(sido + " " + gugun + " " + dong+" "+pgno+" "+listParameterDto.toString());
+		
 		map.clear();
 		listParameterDto.setPg(lidto.getPg());
 		map.put("AddressDTO", addto);
 		map.put("listParameterDTO", listParameterDto);
-		//System.out.println(map);
-		return dao.aptlist(map);
+		
+		List<AptDTO> aptlist = dao.aptlist(map);
+		
+		//알고리즘 구현하기
+		List<StationDTO> stationlist = dao.stationlist();
+		List<StationDTO> nearstationlist = new ArrayList<StationDTO>();
+		
+		for (int i = 0; i < aptlist.size(); i++) {
+			double aptlat = Double.parseDouble(aptlist.get(i).getLat());
+			double aptlng = Double.parseDouble(aptlist.get(i).getLng());
+			double min = 987987987.0;
+			StationDTO sdto = new StationDTO();
+			
+			for (int j = 0; j < stationlist.size(); j++) {
+				double stalat = Double.parseDouble(stationlist.get(j).getLat());
+				double stalng = Double.parseDouble(stationlist.get(j).getLng());
+				
+				double theta = aptlng - stalng;
+		        double dist = 
+		        		Math.sin(aptlat*Math.PI / 180.0) * Math.sin(stalat*Math.PI / 180.0) + 
+		        		Math.cos(aptlat*Math.PI / 180.0) * Math.cos(stalat*Math.PI / 180.0) * Math.cos(theta*Math.PI / 180.0);
+		        dist = Math.acos(dist);
+		        dist = dist*180/Math.PI;
+		        dist = dist*60*1.1515;
+		        
+		        dist = dist*1609.344;
+		        if(dist < min) {
+		        	min = dist;
+		        	sdto = stationlist.get(j);
+		        }
+			}
+			nearstationlist.add(sdto);
+		}
+		
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("aptlist", aptlist);
+		map1.put("nearstationlist", nearstationlist);
+		
+		return map1;
 	}
 	
 	@Override

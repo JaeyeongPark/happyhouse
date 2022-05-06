@@ -20,6 +20,11 @@
 		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
 		
 	</select>
+	
+	<select id="stationlist" resultType="StationDTO">
+		select line, name, code, lat, lng
+		from station
+	</select>
 
 	<select id="getTotalCount" resultType="int" parameterType="map">
 		select count(aptName)
