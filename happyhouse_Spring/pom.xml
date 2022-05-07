@@ -80,6 +80,13 @@
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>3.0.0</version>
 		</dependency> -->
+		
+		<!-- WebSocket -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>4.3.14.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>

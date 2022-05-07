@@ -23,26 +23,24 @@ $(() => {
      function makeList(datas){
          
          $("#boardlistbody").empty();
-         
+         $("#paging").empty();
          if(datas.BoardDTO == 0){
               let str = `<h4 class="text-center mt-5">검색 결과가 없습니다</h4>`;
               $("#boardlistbody").append(str);
          }
          
          else{
-              $.each(datas.BoardDTO, function(index, data) {
-                  
-
+              $.each(datas.BoardDTO, function(index, data) {         
                   let str = `<tr id="" class="">
-                          <td><a class="boardselectlink" href="/board/selectboard?no=${data.no}&id=${data.id}">${data.subject}</a></td>    
+                	  <td>${data.no}</td>    
                         <td>${data.id}</td>
-                        <td>${data.no}</td>    
+                	  <td><a class="boardselectlink" href="/board/selectboard?no=${data.no}&id=${data.id}">${data.subject}</a></td>    
                         <td>${data.search}</td>                        
                     </tr>`;
                 $("#boardlistbody").append(str);
                     
                 });
-              $("#boardlistbody").append(datas.PageNavigation.navigator);
+              $("#paging").append(datas.PageNavigation.navigator);
               
               // 페이지 넘겼을때
               $(".page-item").click(function () {
@@ -64,9 +62,7 @@ $(() => {
                                 error:function(xhr, status, error){
                                     console.log("상태값 : " + xhr.status + "\tHttp 에러메시지 : " + xhr.responseText);
                                 }
-                        });
-                         
-                        
+                        });      
                     });
          }
     }

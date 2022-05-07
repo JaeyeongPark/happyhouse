@@ -7,31 +7,91 @@
 
 <html lang="en">
 <head>
+<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.container{
+			width: 500px;
+			margin: 0 auto;
+			padding: 25px
+		}
+		.container h3{
+			text-align: left;
+			padding: 5px 5px 5px 15px;
+			color: #FFBB00;
+			border-left: 3px solid #FFBB00;
+			margin-bottom: 20px;
+		}
+		.chating{
+			background-color: #000;
+			width: 500px;
+			height: 500px;
+			overflow: auto;
+		}
+		.chating p{
+			color: #fff;
+			text-align: left;
+		}
+		input{
+			width: 330px;
+			height: 25px;
+		}
+		#yourMsg{
+			display: none;
+		}
+</style>
+
+
 
 <%@include file="/WEB-INF/views/head/boardhead.jsp" %>
 
 <script type="text/javascript">
-
-
-
-
-function sort(sort){
-    console.log(sort);
-    $.ajax({
-        url : "/board/search/"+sort,
-        type : "GET",
-        contentType:'application/json;charset=utf-8',
-        dataType:'json',
-        success:function(lists) {
-            console.log(lists);
-           makeList(lists);
-        },
-        error:function(xhr, status, error){
-            console.log("상태값 : " + xhr.status + "\tHttp 에러메시지 : " + xhr.responseText);
-        }
-    });
-}
-
+	var ws;
+	
+	function wsOpen(){
+		ws = new WebSocket("ws://" + location.host + "/chating");
+		wsEvt();
+	}
+		
+	function wsEvt() {
+		ws.onopen = function(data){
+			//소켓이 열리면 초기화 세팅하기
+		}
+		
+		ws.onmessage = function(data) {
+			var msg = data.data;
+			if(msg != null && msg.trim() != ''){
+				$("#chating").append("<p>" + msg + "</p>");
+			}
+		}
+	
+		document.addEventListener("keypress", function(e){
+			if(e.keyCode == 13){ //enter press
+				send();
+			}
+		});
+	}
+	
+	function chatName(){
+		var userName = $("#userName").val();
+		if(userName == null || userName.trim() == ""){
+			alert("사용자 이름을 입력해주세요.");
+			$("#userName").focus();
+		}else{
+			wsOpen();
+			$("#yourName").hide();
+			$("#yourMsg").show();
+		}
+	}
+	
+	function send() {
+		var uN = $("#userName").val();
+		var msg = $("#chatting").val();
+		ws.send(uN+" : "+msg);
+		$('#chatting').val("");
+	}
 
 </script>
 
@@ -47,15 +107,10 @@ function sort(sort){
     <div id="main" class="container">
         <!-- 게시판 시작 -->
         <div class="map-contents row">
-            <div class="col-md-1"></div>
+        	<h2 style="text-align: center">게시판</h2>
             <!-- 전체게시판 시작 -->
-            <div id="map" class="col-md-10">
-                <h2 style="text-align: center">게시판</h2>
+            <div id="map" class="col-md-7">
                 
-                <div>
-                    <a class="boarda" href="/board/boardregistform">글 작성</a>
-                </div>
-
                         <div id="board-search">
                                 <input type="hidden" name="pg" value="1">
                                 <select class="col border m-2" style="height: 40px;" name="key">
@@ -68,31 +123,55 @@ function sort(sort){
                                 <button type="button" class="col btn btn-outline-primary"
                                     id="word-btn">검색</button>
                         </div>
-                        
-                        <table class="table">
+                         <div>
+		                    <a class="boarda" href="/board/boardregistform">글 작성</a>
+		                </div>
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>제목</th>
+                                    <th class="col-md-2">글번호</th>
                                     <!-- <button id="nosort" type="button" class="btn btn-light" onclick="sort(this.id)"    >▼</button> -->
-                                    <th>작성자</th>
-                                    <th>글번호</th>
-                                    <th>조회수</th>
+                                    <th class="col-md-2">작성자</th>
+                                    <th class="col-md-6">제목</th>
+                                    <th class="col-md-3">조회수</th>
                                     <!-- <button id="searchsort" type="button" class="btn btn-light" onclick="sort(this.id)">▼</button> -->
-                                    
                                 </tr>
                             </thead>
                             <tbody id="boardlistbody">
                             </tbody>
                         </table>
                         
-                    </div>
-                    <div class="col-md-1"></div>
-
+                        <div id="paging">
+                        </div>
+                    </div> 
+					<div class="container col-md-5">
+						<h3>채팅</h3>
+						<div id="chating" class="chating"></div>
+						
+						<div id="yourName">
+							<table class="inputTable">
+								<tr>
+									<th>사용자명</th>
+									<th><input type="text" name="userName" id="userName" placeholder="사용할 이름 입력"></th>
+									<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
+								</tr>
+							</table>
+						</div>
+						<div id="yourMsg">
+							<table class="inputTable">
+								<tr>
+									<th>메시지</th>
+									<th><input id="chatting" placeholder="메시지 입력."></th>
+									<th><button onclick="send()" id="sendBtn">보내기</button></th>
+								</tr>
+							</table>
+						</div>
+					</div>
             <!-- 전체게시판 끝 -->
-
-
         </div>
         <!-- 게시판 끝 -->
+        
+        </div>
     </div>
     <!-- MAIN 끝 -->
 

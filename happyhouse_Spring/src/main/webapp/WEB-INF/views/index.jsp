@@ -29,9 +29,9 @@ function makeList(lists){
     $(lists.boardlist).each(function(index, list) {
         if(index >= 0 && index<=2){
             let str = `<tr id="" class="">
-                <td>${'${list.no}'}</td>
-                <td>${'${list.subject}'}</td>
-                <td>${'${list.search}'}</td>
+                <td class="col-sm-3">${'${list.no}'}</td>
+                <td class="col-sm-6">${'${list.subject}'}</td>
+                <td class="col-sm-3">${'${list.search}'}</td>
             </tr>`;
              $("#boardlistbody").append(str);
         }
@@ -119,9 +119,9 @@ function makeList(lists){
 					<img src="./img/adimg.jpg" class="d-block w-100" alt="광고입니다" />
 				</div>
 				<div class="col m-2 p-3 border text-center">
-					<h5>게시판</h5>
+					<h5>인기글</h5>
 					<hr>
-					<table class="table table-hover">
+					<table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>글 번호</th>
