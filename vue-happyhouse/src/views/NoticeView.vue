@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-sheet min-height="70vh" rounded="lg">
-            <div>공지사항입니다.</div>
+            <router-view></router-view>
           </v-sheet>
         </v-col>
       </v-row>

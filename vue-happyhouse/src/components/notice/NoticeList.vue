@@ -1,6 +1,6 @@
 <template>
-  <div class="board-container">
-    <h1 class="text-h3 text-center mt-5 pt-6 pb-6">게시판</h1>
+  <div class="notice-container">
+    <h1 class="text-h3 text-center mt-5 pt-6 pb-6">공지사항</h1>
     <div class="inner-container">
       <v-simple-table>
         <thead>

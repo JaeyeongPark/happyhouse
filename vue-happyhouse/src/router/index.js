@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import BoardList from "@/components/board/BoardList.vue";
 import BoardView from "@/views/BoardView.vue";
 import NoticeView from "@/views/NoticeView.vue";
+import NoticeList from "@/components/notice/NoticeList.vue";
 import ChatView from "@/views/ChatView.vue";
 import DealView from "@/views/DealView.vue";
 
@@ -19,6 +20,14 @@ const routes = [
     path: "/notice",
     name: "notice",
     component: NoticeView,
+    redirect: "/notice/list",
+    children: [
+      {
+        path: "list",
+        name: "list",
+        component: NoticeList,
+      },
+    ],
   },
   {
     path: "/chat",

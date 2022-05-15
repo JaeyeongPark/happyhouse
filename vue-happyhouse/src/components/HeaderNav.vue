@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-app-bar app color="white" flat hide-on-scroll>
+    <v-app-bar app color="white" flat hide-on-scroll height="90px">
       <v-container absolute class="py-0 fill-height">
-        <v-toolbar-title class="mr-8">
-          <router-link to="/"> HappyHouse </router-link>
+        <v-toolbar-title class="mr-4">
+          <router-link to="/" class="logo"> HappyHouse </router-link>
         </v-toolbar-title>
 
         <v-btn class="nav-item" to="/notice" text>공지사항</v-btn>
@@ -26,14 +26,10 @@
       </v-container>
     </v-app-bar>
     <!-- 로그인 폼 시작 -->
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute="false" temporary right>
       <v-list-item>
-        <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-        </v-list-item-avatar>
-
         <v-list-item-content>
-          <v-list-item-title>John Leider</v-list-item-title>
+          <v-list-item-title> John Leider님 환영합니다.</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -42,7 +38,7 @@
       <v-list dense>
         <v-list-item v-for="item in items" :key="item.title" link>
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon> 
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -56,13 +52,14 @@
 </template>
 <script>
 import { mdiAccount } from "@mdi/js";
+
 export default {
   data() {
     return {
       drawer: false,
       items: [
-        { title: "Home", icon: "mdi-view-dashboard" },
-        { title: "About", icon: "mdi-forum" },
+        { title: "로그인", icon: "mdi-view-dashboard" },
+        { title: "회원가입", icon: "mdi-forum" },
       ],
       icons: {
         mdiAccount,
@@ -82,5 +79,10 @@ a {
 .nav-item {
   font-weight: bold;
   font-size: 18px;
+}
+
+.logo {
+  height: 80px;
+  width: 180px;
 }
 </style>
