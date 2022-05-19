@@ -1,7 +1,10 @@
 <template>
   <v-app id="inspire">
     <header-nav></header-nav>
-    <router-view></router-view>
+
+    <v-main class="grey lighten-3">
+      <router-view></router-view>
+    </v-main>
   </v-app>
 </template>
 
@@ -19,3 +22,8 @@ export default {
   }),
 };
 </script>
+<style scoped>
+#inspire {
+  height: 900px;
+}
+</style>

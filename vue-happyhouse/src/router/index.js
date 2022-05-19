@@ -1,12 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import BoardList from "@/components/board/BoardList.vue";
+import HomeView from "@/views/HomeView.vue";
 import BoardView from "@/views/BoardView.vue";
-import NoticeView from "@/views/NoticeView.vue";
-import NoticeList from "@/components/notice/NoticeList.vue";
-import ChatView from "@/views/ChatView.vue";
-import DealView from "@/views/DealView.vue";
+import BoardList from "@/components/board/BoardList.vue";
+import BoardDetail from "@/components/board/BoardDetail.vue";
+import BoardModify from "@/components/board/BoardModify.vue";
+import BoardDelete from "@/components/board/BoardDelete.vue";
+import BoardRegist from "@/components/board/BoardRegist.vue";
+import HouseView from "@/views/HouseView.vue";
+import HouseList from "@/components/House/HouseList.vue";
+import UserView from "@/views/UserView.vue";
+import LoginForm from "@/components/user/LoginForm.vue";
+import UserRegist from "@/components/user/UserRegist.vue";
+import UserDetail from "@/components/user/UserDetail.vue";
+import FindPassword from "@/components/user/FindPassword.vue";
 
 Vue.use(VueRouter);
 
@@ -17,27 +24,32 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/notice",
-    name: "notice",
-    component: NoticeView,
-    redirect: "/notice/list",
+    path: "/login",
+    name: "login",
+    component: LoginForm,
+  },
+  {
+    path: "/user",
+    name: "user",
+    component: UserView,
+    redirect: "/",
     children: [
       {
-        path: "list",
-        name: "list",
-        component: NoticeList,
+        path: "regist",
+        name: "userregist",
+        component: UserRegist,
+      },
+      {
+        path: "detail",
+        name: "userdetail",
+        component: UserDetail,
+      },
+      {
+        path: "findpw",
+        name: "findpw",
+        component: FindPassword,
       },
     ],
-  },
-  {
-    path: "/chat",
-    name: "chat",
-    component: ChatView,
-  },
-  {
-    path: "/deal",
-    name: "deal",
-    component: DealView,
   },
   {
     path: "/board",
@@ -49,6 +61,39 @@ const routes = [
         path: "list",
         name: "list",
         component: BoardList,
+      },
+      {
+        path: "detail/:no",
+        name: "detail",
+        component: BoardDetail,
+      },
+      {
+        path: "modify/:no",
+        name: "modify",
+        component: BoardModify,
+      },
+      {
+        path: "delete/:no",
+        name: "delete",
+        component: BoardDelete,
+      },
+      {
+        path: "regist",
+        name: "regist",
+        component: BoardRegist,
+      },
+    ],
+  },
+  {
+    path: "/house",
+    name: "house",
+    component: HouseView,
+    redirect: "/house/list",
+    children: [
+      {
+        path: "list",
+        name: "list",
+        component: HouseList,
       },
     ],
   },
