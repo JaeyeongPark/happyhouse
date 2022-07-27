@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mapper.UserMapper">
+
+	<insert id="insertUser" parameterType="UserDTO" >
+		insert into user 
+		(id, password, name, email,age ,phonenumber, dongcode, sidoName, gugunName, dongName)
+		values (#{id}, #{password}, #{name}, #{email},#{age} ,#{phonenumber}, #{dongcode}, #{sidoName}, #{gugunName}, #{dongName})
+	</insert>
+
+	<update id="updateUser" parameterType="UserDTO">
+		update user set password = #{password} , name = #{name}, 
+		email = #{email},age = #{age}, phonenumber = #{phonenumber}, dongcode = #{dongcode}, sidoName = #{sidoName}, gugunName = #{gugunName}, dongName = #{dongName}
+		where id = #{id}
+	</update>
+	
+	<delete id="deletetUser" parameterType="string">
+		delete from user where id = #{id}
+	</delete>
+	
+	<select id="login" resultType="UserDTO" parameterType="UserDTO">
+		select *
+		from user 
+		where id=#{id} and password=#{password}
+	</select>
+	
+	<select id="userinfo" resultType="UserDTO" parameterType="string">
+		select * 
+		from user 
+		where id=#{id}
+	</select>
+	
+	<select id="searchpw" resultType="String" parameterType="string">
+		select password 
+		from user 
+		where id=#{id}
+	</select>
+	
+	<insert id="userinterregist" parameterType="UserInterestDTO">
+		insert into userinterest values (#{id}, #{dongcode}, #{category}, #{categoryvalue}, #{code},#{address})
+	</insert>
+	
+	<select id="userinterconfirm" resultType="UserInterestDTO" parameterType="UserInterestDTO">
+		select *
+		from userinterest 
+		where id=#{id} and category = #{category} and code = #{code}
+	</select>
+	
+	<delete id="userinterdelete" parameterType="UserInterestDTO">
+		delete from userinterest where id=#{id} and category = #{category} and code = #{code}
+	</delete>
+	
+	<select id="userinterdelist" resultType="UserInterestDTO" parameterType="string">
+		select *
+		from userinterest
+		where id=#{id}
+	</select>
+
+</mapper>
+

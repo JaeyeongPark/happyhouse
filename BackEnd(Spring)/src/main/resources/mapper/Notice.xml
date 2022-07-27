@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.mapper.NoticeMapper">
+
+    <select id="listnotice" resultType="NoticeDTO" parameterType="map">
+        select noticeno, id, subject, content, joindate
+        from notice
+        limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+    </select>
+    
+    
+    <select id="getTotalCount" resultType="int" parameterType="map">
+        select count(noticeno)
+        from notice
+    </select>
+    
+    <select id="noticedetail" resultType="NoticeDTO" parameterType="string">
+        select noticeno, id, subject, content, joindate
+        from notice
+        where noticeno = #{noticeno}
+    </select>
+    
+</mapper>

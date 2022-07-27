@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mapper.FacilityMapper">
+
+	<select id="academylist" resultType="AcademyDTO"  parameterType="map">
+		select academycode, eduofficecode, eduoffice, type,academyname,state,
+		maxnum,posnum,edutype,edulist,edudetail,postcode,address,a.sidoname,a.gugunname,
+		a.dongname, a.dongcode
+		from dongcode b join ${FacilityCategorySearchDTO.category} a 
+		on b.dongcode = a.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and a.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+	</select>
+	
+	<select id="kinderlist" resultType="KinderDTO"  parameterType="map">
+		select kindercode,eduoffice,edusupportoffice,kindername,type,
+		representative,director,address,oldaddress,contactnumber,website,operationtime,
+		maxnum,k.sidoname,k.gugunname,k.dongname,k.dongcode
+		from dongcode b join ${FacilityCategorySearchDTO.category} k 
+		on b.dongcode = k.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and k.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+	</select>
+	
+	<select id="nurserylist" resultType="NurseryDTO"  parameterType="map">
+		select nurserycode,nurseryname,type,operation,postcode,address,contactnumber
+		,roomcnt,roomarea,playground,teacher,maxnum,curnum,lat,lng,bus,website,n.sidoname
+		,n.gugunname,n.dongname, n.dongcode
+		from dongcode b join ${FacilityCategorySearchDTO.category} n
+		on b.dongcode = n.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and n.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+	</select>
+	
+	<select id="schoollist" resultType="SchoolDTO"  parameterType="map">
+		select schoolcode,eduoffice,schoolnum,schoolname,type,anniversary,s.dongcode,
+		address,lat,lng,contactnumber,website,boynum,girlnum,studentnum,s.sidoname
+		,s.gugunname,s.dongname
+		from dongcode b join ${FacilityCategorySearchDTO.category} s 
+		on b.dongcode = s.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and s.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+	</select>
+	
+	<select id="protectionzonelist" resultType="ProtectionZoneDTO"  parameterType="map">
+		select protectionzonecode, type,protectionzonename,address,oldaddress,lat,lng
+		,management,police,cctv,cctvcnt,roadlength,p.sidoname,p.gugunname,p.dongname,
+		p.dongcode
+		from dongcode b join ${FacilityCategorySearchDTO.category} p 
+		on b.dongcode = p.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and p.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+	</select>
+	
+	<select id="parklist" resultType="ParkDTO"  parameterType="map">
+		select parkcode,parkname,type,newaddress,address,lat,lng,area,sportsfacility,usementfacility
+		,convenfacility,edufacility,etcfacility,management,contactnumber,
+		p.sidoname,p.gugunname,p.dongname,p.dongcode
+		from dongcode b join ${FacilityCategorySearchDTO.category} p
+		on b.dongcode = p.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and p.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+	</select>
+	
+	
+	
+	<select id="academydetail" resultType="AcademyDTO"  parameterType="string">
+		select academycode, eduofficecode, eduoffice, type,academyname,state,
+		maxnum,posnum,edutype,edulist,edudetail,postcode,address,sidoname,gugunname,
+		dongname, dongcode
+		from academy
+		where academycode = #{code}
+	</select>
+	
+	<select id="kinderdetail" resultType="KinderDTO"  parameterType="map">
+		select kindercode,eduoffice,edusupportoffice,kindername,type,
+		representative,director,address,oldaddress,contactnumber,website,operationtime,
+		maxnum,sidoname,gugunname,dongname,dongcode
+		from kinder 
+		where kindercode = #{code}
+	</select>
+	
+	<select id="nurserydetail" resultType="NurseryDTO"  parameterType="map">
+		select nurserycode,nurseryname,type,operation,postcode,address,contactnumber
+		,roomcnt,roomarea,playground,teacher,maxnum,curnum,lat,lng,bus,website,sidoname
+		,gugunname,dongname, dongcode
+		from nursery
+		where nurserycode = #{code}
+	</select>
+	
+	<select id="schooldetail" resultType="SchoolDTO"  parameterType="map">
+		select schoolcode,eduoffice,schoolnum,schoolname,type,anniversary,dongcode,
+		address,lat,lng,contactnumber,website,boynum,girlnum,studentnum,sidoname
+		,gugunname,dongname
+		from school
+		where schoolcode = #{code}
+	</select>
+	
+	<select id="protectionzonedetail" resultType="ProtectionZoneDTO"  parameterType="map">
+		select protectionzonecode, type,protectionzonename,address,oldaddress,lat,lng
+		,management,police,cctv,cctvcnt,roadlength,sidoname,gugunname,dongname,
+		dongcode
+		from protectionzone
+		where protectionzonecode = #{code}
+	</select>
+	
+	<select id="parkdetail" resultType="ParkDTO"  parameterType="map">
+		select parkcode,parkname,type,newaddress,address,lat,lng,area,sportsfacility,usementfacility
+		,convenfacility,edufacility,etcfacility,management,contactnumber,
+		sidoname,gugunname,dongname,dongcode
+		from park
+		where parkcode = #{code}
+	</select>
+
+
+
+	<select id="getTotalCount" resultType="int" parameterType="map">
+		select count(*)
+		from dongcode b join ${FacilityCategorySearchDTO.category} p
+		on b.dongcode = p.dongcode
+		where b.dongcode = #{FacilityCategorySearchDTO.dongcode}
+		<if test='FacilityCategorySearchDTO.categoryvalue != null'>
+			and p.${FacilityCategorySearchDTO.category}name like concat('%', #{FacilityCategorySearchDTO.categoryvalue}, '%')
+		</if>
+	</select>
+	
+</mapper>

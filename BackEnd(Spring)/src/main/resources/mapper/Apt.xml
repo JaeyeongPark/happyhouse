@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mapper.AptMapper">
+
+	<select id="aptlist" resultType="AptDTO"  parameterType="map">
+		select hi.aptCode,b.dongCode, hi.buildYear, hi.apartmentName, hi.lat, hi.lng, hd.dealAmount, hd.dealYear, hd.dealMonth, hd.dealDay, hd.area, hd.floor, b.sidoName, b.gugunName, b.dongName, hi.roadName,hd.no
+		from dongcode b join houseinfo hi
+		on (b.dongcode = hi.dongcode)
+		join housedeal hd
+		on (hi.aptCode = hd.aptCode)
+		where b.dongCode = #{AddressDTO.dongCode} and hd.dealYear = #{dealYear}
+		<if test='listParameterDTO.word != null'>
+			<if test='listParameterDTO.key.equals("apartmentName")'>
+			and hi.apartmentName like concat('%', #{listParameterDTO.word}, '%')
+			</if>
+		</if>
+		limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+		
+	</select>
+	
+	
+	<select id="aptdetail" resultType="AptDTO"  parameterType="map">
+		select 
+		d.no
+		,i.aptCode
+		,i.dongCode
+		,i.buildYear
+		,i.apartmentName
+		,i.lat
+		,i.lng
+		,d.dealAmount
+		,d.dealYear
+		,d.dealMonth
+		,d.dealDay
+		,d.area
+		,d.floor
+		,i.roadName
+		from houseinfo i join housedeal d
+		on (i.aptCode = d.aptCode)
+		where i.aptCode = #{adto.aptCode} and d.no = #{adto.no};
+	</select>
+
+	<select id="getTotalCount" resultType="int" parameterType="map">
+		select count(*)
+		from dongcode b join houseinfo hi 
+		on (b.dongcode = hi.dongcode)
+		join housedeal hd
+		on (hi.aptCode = hd.aptCode)
+		where b.dongCode = #{AddressDTO.dongCode} and hd.dealYear = #{dealYear}
+		<if test='listParameterDTO.word != null'>
+			<if test='listParameterDTO.key == "apartmentName"'>
+			and hi.apartmentName like concat('%', #{listParameterDTO.word}, '%')
+			</if>
+			<if test='listParameterDTO.key != "apartmentName"'>
+			and #{listParameterDTO.key} = #{listParameterDTO.word}
+			</if>
+		</if>
+	</select>
+	
+
+</mapper>
+

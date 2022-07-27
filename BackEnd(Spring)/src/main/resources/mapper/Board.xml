@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.mapper.BoardMapper">
+
+    <insert id="insertboard" parameterType="BoardDTO">
+        insert into board (id, subject, content,dongcode,category,categoryvalue,sidoName,gugunName,dongName) values 
+        (#{id},#{subject},#{content},#{dongcode},#{category},#{categoryvalue},#{sidoName},#{gugunName},#{dongName})
+    </insert>
+
+    <update id="updateboard" parameterType="BoardDTO">
+        update board 
+        set subject = #{subject}, content = #{content} , dongcode = #{dongcode},
+        category = #{category}, categoryvalue = #{categoryvalue}, sidoName=#{sidoName}, gugunName=#{gugunName}, dongName=#{dongName}
+        where boardno = #{boardno}
+    </update>
+    
+    <delete id="deleteboard" parameterType="BoardDTO">
+        delete from board where boardno = #{boardno}
+    </delete>
+    
+    <select id="listboard" resultType="BoardDTO" parameterType="map">
+        select boardno, id, subject, content, dongcode, category, categoryvalue,sidoName,gugunName,dongName
+        from board
+        
+        <choose>
+        	<when test='BoardCategoriSearchDTO.dongcode != ""'>
+        		where dongcode = #{BoardCategoriSearchDTO.dongcode}
+	        	<if test='BoardCategoriSearchDTO.category != ""'>
+	        	and category = #{BoardCategoriSearchDTO.category}
+		            <if test='BoardCategoriSearchDTO.categoryvalue != ""'>
+		            and categoryvalue like concat('%', #{BoardCategoriSearchDTO.categoryvalue}, '%')
+		            </if>
+	       		</if>
+	       		
+	       		<if test='listParameterDTO.word != null'>
+		            <if test='listParameterDTO.key.equals("id")'>
+		            and id = #{listParameterDTO.word}
+		            </if>
+		            <if test='listParameterDTO.key.equals("subject")'>
+		            and subject like concat('%', #{listParameterDTO.word}, '%')
+		            </if>
+		            <if test='listParameterDTO.key.equals("content")'>
+		            and content like concat('%', #{listParameterDTO.word}, '%')
+		            </if>
+		        </if>
+        	</when>
+        	<otherwise>
+        		<if test='listParameterDTO.word != null'>
+		            <if test='listParameterDTO.key.equals("id")'>
+		           where id = #{listParameterDTO.word}
+		            </if>
+		            <if test='listParameterDTO.key.equals("subject")'>
+		          where  subject like concat('%', #{listParameterDTO.word}, '%')
+		            </if>
+		            <if test='listParameterDTO.key.equals("content")'>
+		           where content like concat('%', #{listParameterDTO.word}, '%')
+		            </if>
+		        </if>
+        	</otherwise>
+        </choose>
+        
+        limit #{listParameterDTO.start},#{listParameterDTO.currentPerPage}
+    </select>
+    
+    <select id="boarddetail" resultType="BoardDTO" parameterType="string">
+        select boardno, id, subject, content, dongcode, category, categoryvalue,sidoName,gugunName,dongName
+        from board
+        where boardno = #{no}
+    </select>
+    
+    <select id="boardcomment" resultType="BoardCommentDTO" parameterType="string">
+        select commentno, id, boardno, comment
+        from boardcomment
+        where boardno = #{no}
+    </select>
+    
+    <select id="getTotalCount" resultType="int" parameterType="map">
+        select count(boardno)
+        from board
+        <if test='listParameterDTO.word != null'>
+            <if test='listParameterDTO.key.equals("id")'>
+            where id = #{listParameterDTO.word}
+            </if>
+            <if test='listParameterDTO.key.equals("subject")'>
+            where subject like concat('%', #{listParameterDTO.word}, '%')
+            </if>
+            <if test='listParameterDTO.key.equals("content")'>
+            where content like concat('%', #{listParameterDTO.word}, '%')
+            </if>
+        </if>
+    </select>
+        
+    <!-- <update id="countsearch" parameterType="string">
+        update board
+        set search = search+1
+        where boardno = #{no}
+    </update> -->
+
+    <select id="listwholeboard" resultType="BoardDTO">
+        select boardno, id, subject, content, search 
+        from board
+    </select>
+    
+    
+    <insert id="registcomment" parameterType="BoardCommentDTO">
+        insert into boardcomment (boardno, id, comment) values 
+        (#{boardno},#{id},#{comment})
+    </insert>
+    
+    <delete id="deletecomment" parameterType="string">
+        delete from boardcomment where commentno = #{commentno}
+    </delete>
+    
+    <update id="updatecomment" parameterType="BoardCommentDTO">
+        update boardcomment 
+        set comment = #{comment}
+        where commentno = #{commentno}
+    </update>
+    
+</mapper>

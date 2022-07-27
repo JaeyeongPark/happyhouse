@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mapper.AddressMapper">
+
+<select id="getAllAddress" resultType="AddressDTO" parameterType="string">
+        select sidoname,gugunname,dongname
+        from dongcode
+        where dongcode = #{dongcode}
+    </select>
+
+	<select id="listsido" resultType="AddressDTO">
+		select distinct sidoname from dongcode;
+	</select>
+
+	<select id="listgugun" resultType="AddressDTO" parameterType="string">
+		select distinct gugunName
+		from dongcode
+		where sidoName = #{sidoName}
+	</select>
+	
+	<select id="listdong" resultType="AddressDTO" parameterType="string">
+		select distinct dongName
+		from dongcode
+		where sidoName = #{sidoName} and gugunName = #{gugunName}
+	</select>
+	
+	<select id="getdongcode" resultType="AddressDTO" parameterType="string">
+		select dongCode
+		from dongcode
+		where sidoName = #{sidoName} and gugunName = #{gugunName} and dongName = #{dongName}
+	</select>
+	
+	<select id="getcategoryvalue" resultType="string" parameterType="string">
+		select ${category}name
+		from ${category}
+		where dongcode = #{dongcode}
+	</select>
+	
+
+</mapper>
+
